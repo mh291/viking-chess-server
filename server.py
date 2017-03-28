@@ -37,14 +37,13 @@ def getCurrentPlayer(allow_headers=["access-control-allow-origin"]):
 @app.route("/api/resetBoard", methods=["POST"])
 @cross_origin()
 def resetBoard():
-    global board, currentPlayer
+    global board, currentPlayer, playerOne, playerTwo
     if request.method == 'POST':
-        if playerOne == "" or playerTwo == "":
-            return Response(json.dumps(notReadyError))
-        else:
-            board = request.data
-            currentPlayer = "black"
-            return  Response(json.dumps("Board reset"))
+        board = request.data
+        currentPlayer = "black"
+        playerOne = ""
+        playerTwo = ""
+        return  Response(json.dumps("Board reset"))
 
 @app.route("/api/setPlayer", methods=["POST"])
 @cross_origin()
