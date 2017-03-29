@@ -11,6 +11,7 @@ currentPlayer = "black"
 playerOne = ""
 playerTwo = ""
 notReadyError = "Both players not yet set"
+winner = ""
 
 @app.route("/api/updateBoard", methods=["GET", "POST"])
 @cross_origin()
@@ -37,12 +38,13 @@ def getCurrentPlayer(allow_headers=["access-control-allow-origin"]):
 @app.route("/api/resetBoard", methods=["POST"])
 @cross_origin()
 def resetBoard():
-    global board, currentPlayer, playerOne, playerTwo
+    global board, currentPlayer, playerOne, playerTwo, winner
     if request.method == 'POST':
         board = request.data
         currentPlayer = "black"
         playerOne = ""
         playerTwo = ""
+        winner = ""
         return  Response(json.dumps("Board reset"))
 
 @app.route("/api/setPlayer", methods=["POST"])
@@ -58,6 +60,17 @@ def setPlayer():
             return Response(json.dumps(playerTwo))
         else:
             return Response(json.dumps("error, two people are already playing"))    
+
+@app.route("/api/winner", methods=["GET", "POST"])
+@cross_origin()
+def updateWinner():
+    global winner
+    if request.method == 'POST':
+        print request.data
+        winner = request.data
+        return Response(json.dumps("Winner Set"))
+    else:
+        return Response(json.dumps(winner))
 
 if __name__ == "__main__":
     app.run()
