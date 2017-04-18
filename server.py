@@ -23,16 +23,15 @@ def updateBoard():
             currentPlayer = "black" if currentPlayer == "white" else "white"
             board = request.data
             return Response(json.dumps("Board updated"))
-    else:
-        resp = Response(json.dumps(board))
-    	return resp
+    elif request.method == 'GET':
+        print board
+        return Response(json.dumps(board))    	
 
 @app.route("/api/currentPlayer", methods=["GET", "OPTIONS"])
 @cross_origin()
 def getCurrentPlayer(allow_headers=["access-control-allow-origin"]):
     if request.method == 'GET':
-        resp = Response(json.dumps(currentPlayer))
-        return resp    
+        return Response(json.dumps(currentPlayer))
 
 @app.route("/api/resetBoard", methods=["GET", "POST"])
 @cross_origin()
